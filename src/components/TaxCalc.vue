@@ -83,6 +83,11 @@ import { ref, computed, watch } from 'vue';
         if (!profit.value) return null;
         return profit.value / (price.value || 0) * 100;
     })
+
+    function moneyFormat(num: number) {
+        return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
 </script>
 
 <template>
@@ -91,7 +96,7 @@ import { ref, computed, watch } from 'vue';
         <v-card-title>Налоговый калькулятор</v-card-title>
         <v-card-text>
             <v-select v-model="company" return-object label="Наше юр.лицо" :items="companys" item-title="name" item-value="id" clearable></v-select>
-            <v-text-field v-if="company" v-model.number="price" label="Сумма РРЦ, руб."></v-text-field>
+            <v-text-field v-if="company" v-money-format v-model.number="price" label="Сумма РРЦ, руб."></v-text-field>
             <v-text-field v-if="company?.nds == 20" v-model.number="costpriceWithNDS" label="Себестоимость с НДС, руб."></v-text-field>
             <v-text-field v-if="company?.nds == 20" v-model.number="costpriceWithoutNDS" label="Себестоимость БЕЗ НДС, руб."></v-text-field>
             <v-text-field v-if="company&&company?.nds != 20" v-model.number="costprice" label="Себестоимость, руб."></v-text-field>
@@ -99,12 +104,12 @@ import { ref, computed, watch } from 'vue';
 
             <v-card v-if="profit" class="total">
                 <v-card-text>
-                    <p v-if="cashPrice">Сумма конвертации в наличные: <b>{{ cashPrice.toFixed(2) }}</b> руб.</p>
-                    <p v-if="nds">НДС: <b>{{ nds.toFixed(2) }}</b> руб.</p>
-                    <p v-if="company&&tax">Налог на {{ company.taxSystem == TaxSystem.USN_D ? 'доход' : 'прибыль' }}: <b>{{ tax.toFixed(2) }}</b> руб.</p>
+                    <p v-if="cashPrice">Сумма конвертации в наличные: <b>{{ moneyFormat(cashPrice) }}</b> руб.</p>
+                    <p v-if="nds">НДС: <b>{{ moneyFormat(nds) }}</b> руб.</p>
+                    <p v-if="company&&tax">Налог на {{ company.taxSystem == TaxSystem.USN_D ? 'доход' : 'прибыль' }}: <b>{{ moneyFormat(tax) }}</b> руб.</p>
                     <hr>
-                    <p v-if="company&&margin">Маржа: <b>{{ margin.toFixed(2) }}</b> %</p>
-                    <p v-if="company&&profit">Маржа: <b>{{ profit.toFixed(2) }}</b> руб.</p>
+                    <p v-if="company&&margin">Маржинальность: <b>{{ margin.toFixed(2) }}</b> %</p>
+                    <p v-if="company&&profit">Маржа: <b>{{ moneyFormat(profit) }}</b> руб.</p>
                 </v-card-text>
             </v-card>
         </v-card-text>
