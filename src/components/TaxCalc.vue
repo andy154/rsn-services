@@ -15,7 +15,7 @@ import { ref, computed, watch } from 'vue';
     const companys: Company[] = [
         {name: 'ООО "РСН" (НДС 20%)', taxSystem: TaxSystem.OSN, nds: 20, tax: 25},
         {name: 'ООО "Р-Сувенир" (УСН Д-Р 15%)', taxSystem: TaxSystem.USN_DR, nds: 5, tax: 15},
-        {name: 'ИП Ешакин (УСН Д 7%)', taxSystem: TaxSystem.USN_D, nds: 0, tax: 7},
+        {name: 'ИП Ешакин (УСН Д 9%)', taxSystem: TaxSystem.USN_D, nds: 0, tax: 9},
     ];
 
     const cashPercent = 0.15;
