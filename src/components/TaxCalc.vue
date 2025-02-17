@@ -15,7 +15,7 @@ import { ref, computed, watch } from 'vue';
     const companys: Company[] = [
         {name: 'ООО "РСН" (НДС 20%)', taxSystem: TaxSystem.OSN, nds: 20, tax: 25},
         {name: 'ООО "Р-Сувенир" (УСН Д-Р 15%)', taxSystem: TaxSystem.USN_DR, nds: 5, tax: 15},
-        {name: 'ООО "Р-Сувенир" (УСН Д 7%)', taxSystem: TaxSystem.USN_D, nds: 0, tax: 7},
+        {name: 'ИП Ешакин (УСН Д 7%)', taxSystem: TaxSystem.USN_D, nds: 0, tax: 7},
     ];
 
     const cashPercent = 0.15;
@@ -87,7 +87,6 @@ import { ref, computed, watch } from 'vue';
     function moneyFormat(num: number) {
         return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
-
 </script>
 
 <template>
@@ -96,7 +95,7 @@ import { ref, computed, watch } from 'vue';
         <v-card-title>Налоговый калькулятор</v-card-title>
         <v-card-text>
             <v-select v-model="company" return-object label="Наше юр.лицо" :items="companys" item-title="name" item-value="id" clearable></v-select>
-            <v-text-field v-if="company" v-money-format v-model.number="price" label="Сумма РРЦ, руб."></v-text-field>
+            <v-text-field v-if="company" v-model.number="price" label="Сумма РРЦ, руб."></v-text-field>
             <v-text-field v-if="company?.nds == 20" v-model.number="costpriceWithNDS" label="Себестоимость с НДС, руб."></v-text-field>
             <v-text-field v-if="company?.nds == 20" v-model.number="costpriceWithoutNDS" label="Себестоимость БЕЗ НДС, руб."></v-text-field>
             <v-text-field v-if="company&&company?.nds != 20" v-model.number="costprice" label="Себестоимость, руб."></v-text-field>
